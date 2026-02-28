@@ -1,24 +1,19 @@
 FROM python:3.12-slim
 
-# install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-# copy dependency manifests first for layer caching
+ENV PYTHONUNBUFFERED=1 \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy
+
 COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev --no-install-project
 
-# install dependencies into the system python (no venv needed in container)
-RUN uv sync --frozen --no-dev --no-editable
-
-# copy source
 COPY src/ ./src/
-
-# install the package itself
-RUN uv pip install --system --no-deps -e .
-
-ENV PYTHONUNBUFFERED=1
+RUN uv sync --frozen --no-dev
 
 EXPOSE 8000
 
-CMD ["uv", "run", "archivist"]
+CMD ["/app/.venv/bin/archivist"]
