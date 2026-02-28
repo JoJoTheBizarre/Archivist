@@ -191,6 +191,10 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
+# test / sample documents
+*.pdf
+*.docx
+
 # PyPI configuration file
 .pypirc
 
