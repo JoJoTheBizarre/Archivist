@@ -1,3 +1,4 @@
+from starlette.datastructures import UploadFile
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -11,7 +12,7 @@ async def ingest_file(request: Request) -> JSONResponse:
     form = await request.form()
     file = form.get("file")
 
-    if file is None:
+    if not isinstance(file, UploadFile) or not file.filename:
         return JSONResponse({"error": "file is required."}, status_code=400)
 
     content = await file.read()
