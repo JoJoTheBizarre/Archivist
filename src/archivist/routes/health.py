@@ -18,7 +18,6 @@ async def health(request: Request) -> JSONResponse:
     return JSONResponse(
         {
             "status": "ok" if qdrant_ok else "degraded",
-            "service": "archivist",
             "qdrant": "connected" if qdrant_ok else "unreachable",
         }
     )
