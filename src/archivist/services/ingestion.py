@@ -40,7 +40,7 @@ async def _embed_and_upsert(chunks: list[Chunk]) -> int:
         PointStruct(
             id=str(uuid.uuid4()),
             vector=emb.tolist(),
-            payload={"text": c.text, **c.metadata},
+            payload={"text": c.text, "type": "document", **c.metadata},
         )
         for c, emb in zip(chunks, embeddings)
     ]
