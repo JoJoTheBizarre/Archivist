@@ -26,6 +26,13 @@ async def ensure_collection() -> None:
 
 async def get_collection_info() -> dict:
     client = get_client()
+    exists = await client.collection_exists(settings.collection)
+    if not exists:
+        return {
+            "name": settings.collection,
+            "points_count": 0,
+            "status": "not_initialized",
+        }
     info = await client.get_collection(settings.collection)
     return {
         "name": settings.collection,
