@@ -18,11 +18,14 @@ class DoclingStrategy(IngestionStrategy):
 
     @cached_property
     def _chunker(self):
-        from docling.chunking import HybridChunker
+        from docling_core.transforms.chunker.hybrid_chunker import HybridChunker
+        from docling_core.transforms.chunker.tokenizer.huggingface import HuggingFaceTokenizer
 
         return HybridChunker(
-            tokenizer=settings.embedding_model,
-            max_tokens=settings.chunk_size,
+            tokenizer=HuggingFaceTokenizer.from_pretrained(
+                model_name=settings.embedding_model,
+                max_tokens=settings.chunk_size,
+            ),
             merge_peers=True,
         )
 
@@ -32,7 +35,7 @@ class DoclingStrategy(IngestionStrategy):
             text = self._chunker.contextualize(chunk)
             meta = {
                 **metadata,
-                "headings": chunk.meta.headings if chunk.meta.headings else [],
+                "headings": getattr(chunk.meta, "headings", []) or [],
             }
             chunks.append(Chunk(text=text, metadata=meta))
         return chunks
