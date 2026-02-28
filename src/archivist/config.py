@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     chunk_size: int = 512
     chunk_overlap: int = 64
 
+    collection: str = "archivist"
+
     ingestion_strategy: Literal["simple", "docling"] = "simple"
 
     host: str = "0.0.0.0"

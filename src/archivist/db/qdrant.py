@@ -6,7 +6,6 @@ from archivist.config import settings
 
 @lru_cache(maxsize=1)
 def get_client() -> AsyncQdrantClient:
-    """return a cached async qdrant client."""
     return AsyncQdrantClient(
         host=settings.qdrant_host,
         port=settings.qdrant_port,
@@ -14,13 +13,11 @@ def get_client() -> AsyncQdrantClient:
     )
 
 
-async def ensure_collection(collection: str) -> None:
-    """create the collection if it doesn't already exist."""
+async def ensure_collection() -> None:
     client = get_client()
-    exists = await client.collection_exists(collection)
-    if not exists:
+    if not await client.collection_exists(settings.collection):
         await client.create_collection(
-            collection_name=collection,
+            collection_name=settings.collection,
             vectors_config=VectorParams(
                 size=settings.embedding_dim,
                 distance=Distance.COSINE,
@@ -28,27 +25,11 @@ async def ensure_collection(collection: str) -> None:
         )
 
 
-async def list_collections() -> list[dict]:
-    """return a list of collection info dicts."""
+async def get_collection_info() -> dict:
     client = get_client()
-    response = await client.get_collections()
-    result = []
-    for col in response.collections:
-        info = await client.get_collection(col.name)
-        result.append(
-            {
-                "name": col.name,
-                "points_count": info.points_count,
-            }
-        )
-    return result
-
-
-async def delete_collection(collection: str) -> bool:
-    """delete a collection, returns True if it existed."""
-    client = get_client()
-    exists = await client.collection_exists(collection)
-    if not exists:
-        return False
-    await client.delete_collection(collection)
-    return True
+    info = await client.get_collection(settings.collection)
+    return {
+        "name": settings.collection,
+        "points_count": info.points_count,
+        "status": str(info.status),
+    }

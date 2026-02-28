@@ -1,9 +1,22 @@
 from typing import Any
 
-# TODO: implement semantic search with fastembed + qdrant query pipeline.
-# this is a stub — retrieval logic will be fleshed out separately.
+from archivist.config import settings
+from archivist.db.qdrant import get_client
+from archivist.services.ingestion import get_embedder
 
 
-async def search(collection: str, query: str, limit: int = 5) -> list[dict[str, Any]]:
-    """stub: semantic search over a collection. returns scored results."""
-    raise NotImplementedError("retrieval pipeline not yet implemented.")
+async def search(query: str, limit: int = 5) -> list[dict[str, Any]]:
+    embedder = get_embedder()
+    query_vector = list(embedder.embed([query]))[0].tolist()
+
+    client = get_client()
+    results = await client.search(
+        collection_name=settings.collection,
+        query_vector=query_vector,
+        limit=limit,
+    )
+
+    return [
+        {"id": str(r.id), "score": round(r.score, 4), "payload": r.payload}
+        for r in results
+    ]
