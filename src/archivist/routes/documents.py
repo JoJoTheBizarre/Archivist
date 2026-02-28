@@ -19,11 +19,13 @@ async def ingest_file(request: Request) -> JSONResponse:
 
     content = await file.read()
     chunks = await ingestion.ingest_file(collection, file.filename, content)
-    return JSONResponse({
-        "collection": collection,
-        "chunks_ingested": chunks,
-        "message": f"ingested {chunks} chunks from '{file.filename}'.",
-    })
+    return JSONResponse(
+        {
+            "collection": collection,
+            "chunks_ingested": chunks,
+            "message": f"ingested {chunks} chunks from '{file.filename}'.",
+        }
+    )
 
 
 @mcp.custom_route("/api/ingest/text", methods=["POST"])
@@ -40,11 +42,13 @@ async def ingest_text(request: Request) -> JSONResponse:
         return JSONResponse({"error": "text is required."}, status_code=400)
 
     chunks = await ingestion.ingest_text(collection, text, metadata)
-    return JSONResponse({
-        "collection": collection,
-        "chunks_ingested": chunks,
-        "message": f"ingested {chunks} chunks.",
-    })
+    return JSONResponse(
+        {
+            "collection": collection,
+            "chunks_ingested": chunks,
+            "message": f"ingested {chunks} chunks.",
+        }
+    )
 
 
 @mcp.custom_route("/api/documents/{collection}/{doc_id}", methods=["DELETE"])
@@ -61,8 +65,10 @@ async def delete_document(request: Request) -> JSONResponse:
         collection_name=collection,
         points_selector=PointIdsList(points=[doc_id]),
     )
-    return JSONResponse({
-        "collection": collection,
-        "id": doc_id,
-        "message": "document deleted.",
-    })
+    return JSONResponse(
+        {
+            "collection": collection,
+            "id": doc_id,
+            "message": "document deleted.",
+        }
+    )

@@ -6,7 +6,9 @@ from archivist.services.strategies.base import Chunk, IngestionStrategy
 class DoclingStrategy(IngestionStrategy):
     """docling-powered parsing with hybrid chunking. structure-aware, RAG-optimised."""
 
-    async def process_file(self, filename: str, content: bytes, metadata: dict[str, Any]) -> list[Chunk]:
+    async def process_file(
+        self, filename: str, content: bytes, metadata: dict[str, Any]
+    ) -> list[Chunk]:
         # TODO: use DocumentConverter + HybridChunker
         raise NotImplementedError("docling strategy not yet implemented.")
 

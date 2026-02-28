@@ -18,7 +18,7 @@ async def list_collections() -> list[dict]:
 @mcp.tool
 async def get_collection_info(collection: str) -> dict:
     """get detailed info about a specific qdrant collection."""
-    from archivist.db.qdrant import get_client
+
     client = db.get_client()
     info = await client.get_collection(collection)
     return {

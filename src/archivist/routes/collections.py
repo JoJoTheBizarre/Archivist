@@ -1,5 +1,3 @@
-import json
-
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -23,7 +21,9 @@ async def create_collection(request: Request) -> JSONResponse:
         return JSONResponse({"error": "collection name is required."}, status_code=400)
 
     await db.ensure_collection(name)
-    return JSONResponse({"collection": name, "message": "collection created."}, status_code=201)
+    return JSONResponse(
+        {"collection": name, "message": "collection created."}, status_code=201
+    )
 
 
 @mcp.custom_route("/api/collections/{name}", methods=["DELETE"])
@@ -32,5 +32,7 @@ async def delete_collection(request: Request) -> JSONResponse:
     name = request.path_params["name"]
     deleted = await db.delete_collection(name)
     if not deleted:
-        return JSONResponse({"error": f"collection '{name}' not found."}, status_code=404)
+        return JSONResponse(
+            {"error": f"collection '{name}' not found."}, status_code=404
+        )
     return JSONResponse({"collection": name, "message": "collection deleted."})

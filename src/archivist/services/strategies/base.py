@@ -11,9 +11,11 @@ class Chunk:
 
 class IngestionStrategy(ABC):
     @abstractmethod
-    async def process_file(self, filename: str, content: bytes, metadata: dict[str, Any]) -> list[Chunk]:
-        ...
+    async def process_file(
+        self, filename: str, content: bytes, metadata: dict[str, Any]
+    ) -> list[Chunk]: ...
 
     @abstractmethod
-    async def process_text(self, text: str, metadata: dict[str, Any]) -> list[Chunk]:
-        ...
+    async def process_text(
+        self, text: str, metadata: dict[str, Any]
+    ) -> list[Chunk]: ...

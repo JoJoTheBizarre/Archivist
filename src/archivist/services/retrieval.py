@@ -4,8 +4,6 @@ from typing import Any
 # this is a stub — retrieval logic will be fleshed out separately.
 
 
-async def search(
-    collection: str, query: str, limit: int = 5
-) -> list[dict[str, Any]]:
+async def search(collection: str, query: str, limit: int = 5) -> list[dict[str, Any]]:
     """stub: semantic search over a collection. returns scored results."""
     raise NotImplementedError("retrieval pipeline not yet implemented.")
