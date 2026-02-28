@@ -13,9 +13,10 @@ async def lifespan(server: FastMCP):
 mcp = FastMCP(
     name="archivist",
     instructions=(
-        "Archivist is a RAG knowledge base server. "
-        "Use the search tool to retrieve relevant document chunks from a collection. "
-        "Use get_collection_info to inspect the knowledge base."
+        "Archivist is a RAG knowledge base server with semantic memory. "
+        "Read guide://server for a full overview of what this server provides. "
+        "Read guide://search to understand how to query ingested documents. "
+        "Read guide://memory to understand how to save and recall agent memories."
     ),
     lifespan=lifespan,
 )
