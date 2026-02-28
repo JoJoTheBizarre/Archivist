@@ -38,7 +38,6 @@ async def list_collections() -> list[dict]:
         result.append(
             {
                 "name": col.name,
-                "vectors_count": info.vectors_count,
                 "points_count": info.points_count,
             }
         )
