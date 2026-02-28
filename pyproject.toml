@@ -1,0 +1,32 @@
+[project]
+name = "archivist"
+version = "0.1.0"
+description = "RAG knowledge base server — MCP tools + HTTP ingestion endpoints backed by Qdrant."
+requires-python = ">=3.12"
+dependencies = [
+    "fastmcp>=3.0.1",
+    "pydantic-settings>=2.13.1",
+    "pypdf>=6.7.4",
+    "python-docx>=1.2.0",
+    "python-multipart>=0.0.22",
+    "qdrant-client[fastembed]>=1.17.0",
+    "uvicorn[standard]>=0.41.0",
+]
+
+[project.scripts]
+archivist = "archivist.main:main"
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "hatchling>=1.29.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/archivist"]
