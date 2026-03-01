@@ -1,6 +1,6 @@
 from functools import lru_cache
 from qdrant_client import AsyncQdrantClient
-from qdrant_client.models import Distance, VectorParams
+from qdrant_client.models import Distance, PayloadSchemaType, VectorParams
 from archivist.config import settings
 
 
@@ -22,6 +22,11 @@ async def ensure_collection() -> None:
                 distance=Distance.COSINE,
             ),
         )
+    await client.create_payload_index(
+        collection_name=settings.collection,
+        field_name="timestamp",
+        field_schema=PayloadSchemaType.DATETIME,
+    )
 
 
 async def get_collection_info() -> dict:

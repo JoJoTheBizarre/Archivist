@@ -20,16 +20,14 @@ embedded, and indexed for semantic retrieval. Searched with the search tool.
 Agent diary entries — user preferences, decisions, conventions, and facts
 observed across sessions. Searched with recall, listed with recent_memories.
 
----
 
 ## tools available
 
 | tool              | searches    | description                                      |
 |-------------------|-------------|--------------------------------------------------|
-| search            | documents   | semantic search over ingested document chunks    |
+| search            | documents   | semantic search over ingested document chunks that may exist   |
 | save_memory       | —           | persist a memory entry with timestamp and tags   |
 | recall            | memories    | semantic search over saved memories              |
-| recent_memories   | memories    | list most recent memories, newest first          |
 
 ---
 
@@ -37,28 +35,15 @@ observed across sessions. Searched with recall, listed with recent_memories.
 
 | uri               | description                                              |
 |-------------------|----------------------------------------------------------|
-| guide://server    | this overview                                            |
-| guide://search    | how to use the search tool and what it retrieves         |
-| guide://memory    | how to use the memory tools and post-task save habit     |
-| qdrant://collection | live stats: collection name, point count, status       |
+| guide://server      | this overview                                            |
+| guide://search      | how to use the search tool and what it retrieves         |
+| guide://memory      | how to use the memory tools and post-task save habit     |
 
----
-
-## http endpoints (ingestion)
-
-    POST   /api/ingest/file          — upload a file (multipart, field: file)
-    POST   /api/ingest/text          — ingest raw text (JSON: { text, metadata })
-    DELETE /api/documents/{id}       — delete a chunk by ID
-    GET    /api/collection           — collection stats
-    GET    /health                   — liveness check + qdrant connectivity
-
----
 
 ## recommended session start
 
 1. read guide://memory — prime yourself on the memory system.
 2. call recent_memories(limit=5) — catch up on recent context about the user.
-3. proceed with the task, using search when document grounding is needed.
 4. after the task, call save_memory with a one-sentence preference summary.
 """
 

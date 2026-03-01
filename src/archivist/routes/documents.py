@@ -16,11 +16,10 @@ async def ingest_file(request: Request) -> JSONResponse:
         return JSONResponse({"error": "file is required."}, status_code=400)
 
     content = await file.read()
-    chunks = await ingestion.ingest_file(file.filename, content)
+    _ = await ingestion.ingest_file(file.filename, content)
     return JSONResponse(
         {
             "collection": settings.collection,
-            "chunks_ingested": chunks,
             "source": file.filename,
         }
     )

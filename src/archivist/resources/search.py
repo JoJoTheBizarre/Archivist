@@ -33,20 +33,6 @@ Each result contains:
 - you need to ground your answer in source material rather than general knowledge.
 - the user asks "what does the document say about..." or "find information on...".
 
-## when not to use it
-
-- the user is asking about their own preferences or past conversations — use recall instead.
-- the question is general knowledge unlikely to appear in the uploaded documents.
-
----
-
-## ingesting documents
-
-Documents are ingested via HTTP (not MCP tools):
-
-    POST /api/ingest/file   — multipart upload, field name: file
-    POST /api/ingest/text   — JSON body: { "text": "...", "metadata": {} }
-    DELETE /api/documents/{id}  — remove a specific chunk by ID
 """
 
 
